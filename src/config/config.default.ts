@@ -6,4 +6,7 @@ export default {
   koa: {
     port: 7001,
   },
+  upload: {
+    mode: 'stream',
+  },
 } as MidwayConfig;

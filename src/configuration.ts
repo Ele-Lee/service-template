@@ -4,9 +4,11 @@ import * as validate from '@midwayjs/validate';
 import * as info from '@midwayjs/info';
 import { join } from 'path';
 import { ReportMiddleware } from './middleware/report.middleware';
+import { FormatMiddleware } from './middleware/format.middleware';
 // import { DefaultErrorFilter } from './filter/default.filter';
 // import { NotFoundFilter } from './filter/notfound.filter';
 import * as orm from '@midwayjs/typeorm';
+import * as upload from '@midwayjs/upload';
 
 @Configuration({
   imports: [
@@ -16,7 +18,8 @@ import * as orm from '@midwayjs/typeorm';
       component: info,
       enabledEnvironment: ['local'],
     },
-    orm
+    orm,
+    upload,
   ],
   importConfigs: [join(__dirname, './config')],
 })
@@ -26,7 +29,7 @@ export class ContainerLifeCycle {
 
   async onReady() {
     // add middleware
-    this.app.useMiddleware([ReportMiddleware]);
+    this.app.useMiddleware([ReportMiddleware, FormatMiddleware]);
     // add filter
     // this.app.useFilter([NotFoundFilter, DefaultErrorFilter]);
   }
