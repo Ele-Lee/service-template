@@ -15,4 +15,10 @@ export class APIController {
     const user = await this.userService.getAll();
     return user;
   }
+
+  @Get('/login')
+  async login() {
+    const token = await this.userService.login();
+    return token;
+  }
 }
