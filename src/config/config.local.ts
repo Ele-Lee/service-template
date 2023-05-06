@@ -26,4 +26,10 @@ export default {
       },
     },
   },
+  bull: {
+    // 默认的队列配置
+    defaultQueueOptions: {
+      redis: `redis://127.0.0.1:6379`,
+    }
+  },
 } as MidwayConfig;

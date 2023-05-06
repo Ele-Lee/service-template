@@ -1,6 +1,4 @@
 import { Controller, Post, Files, Fields, Inject, Body, Param, Get, SetHeader } from '@midwayjs/core';
-// import { rename } from 'fs/promises';
-// import { join } from 'path';
 import { Context } from '@midwayjs/koa';
 import { AiFileService } from '../service/ai_file.service';
 import pick from 'lodash/pick';
@@ -14,8 +12,8 @@ export class FileController {
 
   @Post('/upload')
   public async upload(@Files() files, @Fields() fields) {
-    await this.aiFileService.saveFileByUserId(files[0].data, 1);
-    return { success: true };
+    const paint_id = await this.aiFileService.sendForAiPaint(files[0].data, fields.user_id);
+    return { paint_id };
   }
 
   @Post('/get_file')
@@ -24,12 +22,13 @@ export class FileController {
     return res.map(item => pick(item, ['id', 'file']));
   }
 
-  @Get('/get_file_with/:id')
+  @Get('/get_file_with/:patin_id')
   @SetHeader({
     'Content-Type': 'application/force-download',
   })
-  public async getFileImgByUserId(@Param('id') id) {
-    const res = await this.aiFileService.getFileByUserId(id);
-    return res[0].file;
+  public async getFileImgByUserId(@Param('patin_id') patin_id) {
+    this.ctx.set('Content-Disposition', `attachment;filename=${patin_id}.jpeg`)
+    const res = await this.aiFileService.getFileByPaintId(patin_id);
+    return res.file;
   }
 }

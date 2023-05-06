@@ -6,7 +6,10 @@ export class AiFile {
   id: number;
 
   @Column()
-  user: number;
+  paint_id: string;
+
+  @Column()
+  user_id: number;
 
   @Column()
   file: Buffer;
