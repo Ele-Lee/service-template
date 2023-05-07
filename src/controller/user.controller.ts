@@ -13,6 +13,12 @@ export class APIController {
   @Get('/all')
   async getUsers() {
     const user = await this.userService.getAll();
-    return { success: true, message: 'OK', data: user };
+    return user;
+  }
+
+  @Get('/login')
+  async login() {
+    const token = await this.userService.login();
+    return { token, user_id: 1 };
   }
 }
