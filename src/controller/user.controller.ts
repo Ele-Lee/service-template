@@ -19,6 +19,6 @@ export class APIController {
   @Get('/login')
   async login() {
     const token = await this.userService.login();
-    return token;
+    return { token, user_id: 1 };
   }
 }

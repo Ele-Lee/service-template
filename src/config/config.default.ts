@@ -8,10 +8,10 @@ export default {
     port: 7001,
   },
   upload: {
-    mode: 'stream',
+    base64: false // 非必要不用字符串，减少消耗
   },
   jwt: {
-    secret: getPrivateKey().toString(), // fs.readFileSync('xxxxx.key')
+    secret: getPrivateKey().toString(),
     expiresIn: '2d', // https://github.com/vercel/ms
   },
 } as MidwayConfig;

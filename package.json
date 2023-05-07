@@ -17,7 +17,7 @@
     "@midwayjs/upload": "^3.11.6",
     "@midwayjs/validate": "^3.0.0",
     "jsonwebtoken": "^9.0.0",
-    "mysql2": "^3.2.4",
+    "mysql2": "^3.3.0",
     "typeorm": "^0.3.15"
   },
   "devDependencies": {

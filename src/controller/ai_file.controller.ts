@@ -16,19 +16,24 @@ export class FileController {
     return { paint_id };
   }
 
-  @Post('/get_file')
-  public async getFileInfoByUserId(@Body('id') id) {
-    const res = await this.aiFileService.getFileByUserId(id);
-    return res.map(item => pick(item, ['id', 'file']));
+  @Post('/get_file_by_user')
+  public async getFileInfoByUserId(@Body('user_id') user_id) {
+    const res = await this.aiFileService.getFileByUserId(user_id);
+    return res.map(item => pick(item, ['user_id', 'file']));
   }
 
-  @Get('/get_file_with/:patin_id')
+  @Post('/get_file')
   @SetHeader({
     'Content-Type': 'application/force-download',
   })
-  public async getFileImgByUserId(@Param('patin_id') patin_id) {
-    this.ctx.set('Content-Disposition', `attachment;filename=${patin_id}.jpeg`)
-    const res = await this.aiFileService.getFileByPaintId(patin_id);
-    return res.file;
+  public async getFileImgByUserId(@Body('paint_id') paint_id) {
+    this.ctx.set('Content-Disposition', `attachment;filename=${paint_id}.jpeg`)
+    const res = await this.aiFileService.getFileByPaintId(paint_id);
+    if (!res) {
+      return {
+        saved: false
+      }
+    }
+    return { file: res.file, paint_id: res.paint_id, saved: true };
   }
 }

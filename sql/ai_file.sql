@@ -8,15 +8,15 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 CREATE TABLE `ai_file` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `paint_id` varchar(255) NOT NULL COMMENT '前端轮训用的id',
-  `file` blob COMMENT '图片二进制',
-  `user_id` int NOT NULL COMMENT 'USER key',
+  `file` longblob COMMENT '图片二进制',
+  `user_id` int(11) NOT NULL COMMENT 'USER key',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `status` tinyint NOT NULL DEFAULT '1' COMMENT '1代表记录有效，0代表记录无效',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1代表记录有效，0代表记录无效',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `ai_file` (`id`, `paint_id`, `file`, `user_id`, `create_time`, `update_time`, `status`) VALUES
 (1, '1', NULL, 1, '2023-05-05 19:25:30', '2023-05-06 17:33:16', 1);

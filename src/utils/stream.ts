@@ -1,29 +1,23 @@
-import { Transform } from 'stream';
+import { Transform, } from 'stream';
+import fs from 'fs'
 
-class DuplexToBufferTransform extends Transform {
-  buffer = Buffer.alloc(0);
-  constructor(options = {}) {
-    super(options);
-  }
-
-  _transform(chunk, encoding, callback) {
-    this.buffer = Buffer.concat([this.buffer, chunk]);
-    callback();
-  }
-
-  _flush(callback) {
-    this.push(this.buffer);
-    callback();
-  }
+export function transform2Blob(transformStream: Transform) {
+  return new Promise<Buffer>(async (resolve, reject) => {
+    const chunks = []
+    // let buffer = Buffer.alloc(0);
+    for await (let chunk of transformStream) {
+      chunks.push(chunk)
+      // buffer = Buffer.concat([buffer, chunk])
+    }
+    resolve(Buffer.concat(chunks))
+  })
 }
 
-export function buffer2Blob(transformStream: Transform) {
-  const bufferPromise = new Promise<Buffer>((resolve, reject) => {
-    const _transformStream = new DuplexToBufferTransform();
-    transformStream.pipe(_transformStream);
-    _transformStream.on('error', err => reject(err));
-    _transformStream.on('finish', () => resolve(_transformStream.read()));
-  });
-
-  return bufferPromise;
+export function read2buffer(path: string) {
+  return new Promise<Buffer>((resolve, reject) => {
+    // resolve(fs.readFileSync(path))
+    fs.readFile(path, {}, (err, data) => {
+      resolve(data)
+    })
+  })
 }
